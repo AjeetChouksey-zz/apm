@@ -3,14 +3,48 @@
     "contentVersion": "1.0.0.0",
     "parameters": {  },
     "variables": { 
+
         "Template":{
-            "vnetTemplateURI":"",
-            "appDynTemplateURI":""
+            "vnetTemplateURI":"https://github.com/AjeetChouksey/resources/blob/master/network/azure365.vnet.json",
+            "nicTemplateI":"https://github.com/AjeetChouksey/resources/blob/master/network/azure365.nic.json",
+            "pubIPTemplate":"https://github.com/AjeetChouksey/resources/blob/master/network/azure363.pubip.json",
+            "vmTemplate":"https://github.com/AjeetChouksey/resources/blob/master/compute/azure365.vmmd.json"
         },
+
+        "VNET":{
         "virtualNetowrkAddress": "10.0.0.0/24",
         "subnetName": "appdynamics",
         "subnetRange": "10.0.0.0/28"
+        }
+
      },
-    "resources": [  ],
+    "resources": [
+         {
+            "type": "Microsoft.Resources/deployments",
+            "name": "CreateVNET",
+            "apiVersion": "2015-01-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('vnetTemplateURI')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "Virtual Network Name": {
+                        "value": "[variables('virtuaNetowrkName')]"
+                    },
+                    "Virtual Network Address Range": {
+                        "value": "[variables('virtualNetowrkAddress')]"
+                    },
+                    "Subnet Name": {
+                        "value": "[variables('subnetName')]"
+                    },
+                    "Subnet Address Range": {
+                        "value": "[variables('subnetRange')]"
+                    }
+                }
+            }
+        }
+      ],
     "outputs": {  }
     }
