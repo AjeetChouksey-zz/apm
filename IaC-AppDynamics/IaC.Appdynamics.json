@@ -1,0 +1,16 @@
+    {
+    "schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {  },
+    "variables": { 
+        "Template":{
+            "vnetTemplateURI":"",
+            "appDynTemplateURI":""
+        },
+        "virtualNetowrkAddress": "10.0.0.0/24",
+        "subnetName": "appdynamics",
+        "subnetRange": "10.0.0.0/28"
+     },
+    "resources": [  ],
+    "outputs": {  }
+    }
