@@ -1,22 +1,35 @@
     {
-    "schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {  },
+    "parameters": {
+              "_artifactsLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
+      }     
+    },
+      "_artifactsLocationSasToken": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The sasToken required to access baseURL.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated."
+      }      
+    }  
+      },
     "variables": { 
-
-        "Template":{
-            "vnetTemplateURI":"https://github.com/AjeetChouksey/resources/blob/master/network/azure365.vnet.json",
-            "nicTemplateI":"https://github.com/AjeetChouksey/resources/blob/master/network/azure365.nic.json",
-            "pubIPTemplate":"https://github.com/AjeetChouksey/resources/blob/master/network/azure363.pubip.json",
-            "vmTemplate":"https://github.com/AjeetChouksey/resources/blob/master/compute/azure365.vmmd.json"
-        },
-
-        "VNET":{
+        "vnetTemplate": "https://github.com/AjeetChouksey/resources/blob/master/network/azure365.vnet.json",
+        "nicTemplate": "https://github.com/AjeetChouksey/resources/blob/master/network/azure365.nic.json",
+        "pubIPTemplate": "https://github.com/AjeetChouksey/resources/blob/master/network/azure363.pubip.json",
+        "vmTemplate": "https://github.com/AjeetChouksey/resources/blob/master/compute/azure365.vmmd.json",
+        "virtualNetowrkName": "APMVNET",
         "virtualNetowrkAddress": "10.0.0.0/24",
-        "subnetName": "appdynamics",
-        "subnetRange": "10.0.0.0/28"
+        "Subnets":[
+         {
+                "name": "APMSubnet",
+                "properties": {
+                "addressPrefix": "10.0.0.0/26"       
         }
-
+        }
+      ]     
      },
     "resources": [
          {
@@ -26,22 +39,13 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[variables('vnetTemplateURI')]",
+                    "uri": "[variables('vnetTemplate')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "Virtual Network Name": {
-                        "value": "[variables('virtuaNetowrkName')]"
-                    },
-                    "Virtual Network Address Range": {
-                        "value": "[variables('virtualNetowrkAddress')]"
-                    },
-                    "Subnet Name": {
-                        "value": "[variables('subnetName')]"
-                    },
-                    "Subnet Address Range": {
-                        "value": "[variables('subnetRange')]"
-                    }
+                     "vnetName": { "value": "[variables('virtualNetowrkName')]" },
+                     "vnetAddressRange": { "value": "[variables('virtualNetowrkAddress')]" },
+                     "subnets": { "value": "[variables('Subnets')]" }          
                 }
             }
         }
